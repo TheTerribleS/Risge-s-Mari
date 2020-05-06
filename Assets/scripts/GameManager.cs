@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     public GameObject Player;
     public GameObject TimeController;
@@ -32,11 +31,16 @@ public class GameManager : MonoBehaviour
     public float CountdownTimer;
 
     public static bool HasTheGameStarted = false;
-    public static float ScaleObjective = 1.24f;
+    public static float ScaleObjective = 1.3f;
     public static bool HasUserWonOrLost = false, didUserAskToRestart = false;
     public bool isGameRestarting = false;
     public bool isPauseMenuActive = false;
 
+    private void Start()
+    {
+        StartTheGame();
+        CountdownTimer = Countdown.ReturnTimer();
+    }
 
     // Update is called once per frame
     void Update()
@@ -128,6 +132,10 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void SwitchScenes()
+    {
+        SceneManager.LoadScene("Katamari");
+    }
 
     void ScreenAndMusicManager(ImportantScreens sceneToManage, bool activate)
     {
@@ -210,5 +218,7 @@ public class GameManager : MonoBehaviour
             GameplayMusic.GetComponent<AudioSource>().Play();
         }
     }
+
+    
    
 }

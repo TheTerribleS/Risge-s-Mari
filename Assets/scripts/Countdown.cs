@@ -10,7 +10,7 @@ public class Countdown : MonoBehaviour
 
     public GameObject objectWithTimer;
 
-    public static float StartTimer = /*3*/5f;
+    public static float StartTimer = 100f;
     
 
     float timer = StartTimer;
@@ -24,6 +24,8 @@ public class Countdown : MonoBehaviour
         mainTimer = StartTimer;
         
         timer = mainTimer;
+
+        staticTimer = StartTimer;
     }
 
 
@@ -44,6 +46,7 @@ public class Countdown : MonoBehaviour
         }
         else if (timer <= 0f && !doOnce)
         {
+            Debug.Log("I am entering this on the wake");
             canCount = false;
             doOnce = true;
             uiText.text = "0.00";
@@ -62,6 +65,7 @@ public class Countdown : MonoBehaviour
     public static float ReturnTimer()
     {
         return staticTimer;
+        
     }
 }
 
