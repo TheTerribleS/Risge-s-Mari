@@ -10,7 +10,7 @@ public class Countdown : MonoBehaviour
 
     public GameObject objectWithTimer;
 
-    public static float StartTimer = 100f;
+    public static float StartTimer = 180f;
     
 
     float timer = StartTimer;

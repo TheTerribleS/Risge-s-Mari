@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
 
 public class RainAndThunderControl : MonoBehaviour
 {
@@ -12,7 +9,10 @@ public class RainAndThunderControl : MonoBehaviour
     public GameObject Title;
     public Light ThunderLight;
     public Text Button0, Button1;
-    public GameObject FalseFlashObject;
+    public GameObject FalseFlashObject, Button0GameObject, Button1GameObject;
+
+    static public bool AnotherScriptWantsToTurnOnFalseFlash = false;
+    
 
     public float timeUntilNextThunder;
     public float randomFactor;
@@ -20,8 +20,8 @@ public class RainAndThunderControl : MonoBehaviour
     public bool thunderSoundPlayedAlready = false;
     public bool isThisStartThunder;
     Color tempColorFalseFlash;
-    Color tempColorButton0;
-    Color tempColorButton1;
+    Color tempColorPlayButton;
+    Color tempColorExitButton;
 
 
     void Start()
@@ -31,12 +31,12 @@ public class RainAndThunderControl : MonoBehaviour
         
         tempColorFalseFlash = FalseFlash.color;
         tempColorFalseFlash.a = 0;
-        tempColorButton0.a = -3.1f;
-        tempColorButton1.a = -3.5f;
+        tempColorPlayButton.a = -3.1f;
+        tempColorExitButton.a = -3.5f;
 
         //set full red to avoid aesthetic troubles
-        tempColorButton0.r = 1;
-        tempColorButton1.r = 1;
+        tempColorPlayButton.r = 1;
+        tempColorExitButton.r = 1;
 
         FalseFlash.color = tempColorFalseFlash;
         RainSound.volume = 0;
@@ -52,6 +52,13 @@ public class RainAndThunderControl : MonoBehaviour
             RainSound.volume += Time.deltaTime / 2;
         }
 
+        if (AnotherScriptWantsToTurnOnFalseFlash)
+        {
+            AnotherScriptWantsToTurnOnFalseFlash = false; 
+            FalseFlashObject.SetActive(true);
+            InvokeFalseFlash();
+           
+        }
 
         if (timeUntilNextThunder <= 0)
         {
@@ -60,13 +67,9 @@ public class RainAndThunderControl : MonoBehaviour
 
             if (isThisStartThunder)
             {
-                randomFactor = 4;
                 isThisStartThunder = false;
-                tempColorFalseFlash.a = 1;
-                FalseFlash.color = tempColorFalseFlash;
+                InvokeFalseFlash();
                 Title.SetActive(true);
-                ThunderSound.volume = 1;
-                
             }
             
             thunderSoundPlayedAlready = false;
@@ -91,17 +94,34 @@ public class RainAndThunderControl : MonoBehaviour
         timeUntilNextThunder -= Time.deltaTime;
         timeUntilThunderSound -= Time.deltaTime;
         tempColorFalseFlash.a -= Time.deltaTime / 2;
-        tempColorButton0.a += Time.deltaTime;
-        tempColorButton1.a += Time.deltaTime;
+        tempColorPlayButton.a += Time.deltaTime;
+        tempColorExitButton.a += Time.deltaTime;
         
         //set modified alpha values 
         FalseFlash.color = tempColorFalseFlash;
-        Button0.color = tempColorButton0;
-        Button1.color = tempColorButton1;
+        Button0.color = tempColorPlayButton;
+        Button1.color = tempColorExitButton;
 
         if (tempColorFalseFlash.a <= 0 && !isThisStartThunder)
         {
             FalseFlashObject.SetActive(false);
         }
     }
+
+    public void InvokeFalseFlash()
+    {
+        randomFactor = 4;
+        tempColorFalseFlash.a = 1;
+        FalseFlash.color = tempColorFalseFlash;
+        ThunderSound.volume = 1;
+        if (GameManager.HasTheGameStarted)
+        {
+            Title.SetActive(false);
+            Button0GameObject.SetActive(false);
+            Button1GameObject.SetActive(false);
+            
+        }
+        timeUntilNextThunder = 0;
+    }
+
 }

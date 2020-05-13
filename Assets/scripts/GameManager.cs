@@ -31,15 +31,17 @@ public class GameManager : MonoBehaviour
     public float CountdownTimer;
 
     public static bool HasTheGameStarted = false;
-    public static float ScaleObjective = 1.3f;
+    public static float ScaleObjective = 3.1f;
     public static bool HasUserWonOrLost = false, didUserAskToRestart = false;
     public bool isGameRestarting = false;
     public bool isPauseMenuActive = false;
+    bool doneAlready = false;
 
     private void Start()
     {
         StartTheGame();
         CountdownTimer = Countdown.ReturnTimer();
+        RainAndThunderControl.AnotherScriptWantsToTurnOnFalseFlash = true;
     }
 
     // Update is called once per frame
@@ -57,6 +59,12 @@ public class GameManager : MonoBehaviour
         //if the timer is over, the game has started AND is not restarting
         if (CountdownTimer <= 0 && HasTheGameStarted && !isGameRestarting)
         {
+            if (!doneAlready)
+            {
+                RainAndThunderControl.AnotherScriptWantsToTurnOnFalseFlash = true;
+                doneAlready = true;
+            }
+            
             //if player reached the target scale (scaleObjective) 
             if (Player.transform.localScale.x >= ScaleObjective)
             {
@@ -92,6 +100,8 @@ public class GameManager : MonoBehaviour
     public void StartTheGame()
     {
         ScreenSwitch(ImportantScreens.welcome, ImportantScreens.gameplay);
+
+
 
         HasTheGameStarted = true;
     }

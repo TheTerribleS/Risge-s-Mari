@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 0ca0fd76357b2e24d9a53695a61af847
+  - enabled: 1
+    path: Assets/Scenes/Katamari.unity
+    guid: f9287c34cdadded4784a8ea80b4029a7
   m_configObjects: {}
