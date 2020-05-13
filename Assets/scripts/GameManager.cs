@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public float CountdownTimer;
 
     public static bool HasTheGameStarted = false;
-    public static float ScaleObjective = 3.1f;
+    public static float ScaleObjective = 1.5f;
     public static bool HasUserWonOrLost = false, didUserAskToRestart = false;
     public bool isGameRestarting = false;
     public bool isPauseMenuActive = false;
