@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         StartTheGame();
         CountdownTimer = Countdown.ReturnTimer();
         RainAndThunderControl.AnotherScriptWantsToTurnOnFalseFlash = true;
+        PauseMenuManager(false);
     }
 
     // Update is called once per frame
@@ -82,8 +83,9 @@ public class GameManager : MonoBehaviour
         else
             isGameRestarting = false;
         
-        if (Input.GetKeyDown(KeyCode.Escape)&& HasTheGameStarted)
+        if (Input.GetKeyDown(KeyCode.Escape) && HasTheGameStarted)
         {
+            Debug.Log("Me estoy metiendo porque por alguna razón esc está" + Input.GetKeyDown(KeyCode.Escape));
             if (!isPauseMenuActive)
             {
                 PauseMenuManager(true);
